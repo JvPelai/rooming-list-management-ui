@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../app/store";
 import { setRoomingLists } from "../features/roomingLists/roomingListsSlice";
@@ -6,12 +6,29 @@ import type { RoomingList } from "../features/roomingLists/roomingListsSlice";
 import _ from "lodash";
 import SearchBar from "../components/SearchBar";
 import FilterPanel from "../components/FilterPanel";
+import RoomingCard from "../components/RoomingCard";
+import BookingsModal from "../components/BookingsModal";
+import { randomColor } from "../utils/randomColor";
 
 const EventsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { all, search, filters, sort } = useSelector(
     (state: RootState) => state.roomingLists
   );
+
+  const [selectedRoomingList, setSelectedRoomingList] =
+    useState<RoomingList | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = (list: RoomingList) => {
+    setSelectedRoomingList(list);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedRoomingList(null);
+  };
 
   console.log(all, search, filters, sort);
   useEffect(() => {
@@ -127,7 +144,7 @@ const EventsPage = () => {
   }, [all, search, filters, sort]);
 
   return (
-    <div className="p-6">
+    <div className="p-6 relative bg-slate-50 overflow-hidden">
       <h1 className="text-2xl font-bold mb-4">
         Rooming List Management: Events
       </h1>
@@ -139,42 +156,32 @@ const EventsPage = () => {
 
       {Object.entries(filteredSortedLists).map(([eventName, lists]) => (
         <div key={eventName} className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">{eventName}</h2>
+          <div
+            className={`px-2 py-1.5 ${randomColor} rounded outline outline-1 outline-offset-[-1px] inline-flex justify-center items-center gap-2.5`}
+          >
+            <h2
+              className={`text-lg text-center justify-center text-sm font-bold leading-tight`}
+            >
+              {eventName}
+            </h2>
+          </div>
+
           <div className="overflow-x-auto flex gap-4">
             {lists.map((list) => (
-              <div
+              <RoomingCard
                 key={list.id}
-                className="min-w-[300px] bg-white rounded-xl shadow p-4 flex flex-col justify-between"
-              >
-                <div>
-                  <p className="font-bold">[{list.rfpName}]</p>
-                  <p>
-                    Agreement:{" "}
-                    <span className="font-semibold">{list.agreement_type}</span>
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {new Date(list.cutOffDate).toLocaleDateString()} (Cut-Off)
-                  </p>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <button
-                    className="bg-indigo-600 text-white text-sm px-3 py-1 rounded"
-                    onClick={() => console.log("Bookings:", list)}
-                  >
-                    View Bookings ({list.bookingsCount})
-                  </button>
-                  <button
-                    title="Show Agreement as PDF"
-                    className="text-indigo-600 border border-indigo-600 p-1 rounded"
-                  >
-                    📄
-                  </button>
-                </div>
-              </div>
+                list={list}
+                onViewBookings={openModal}
+              />
             ))}
           </div>
         </div>
       ))}
+      <BookingsModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        roomingList={selectedRoomingList}
+      />
     </div>
   );
 };
