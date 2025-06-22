@@ -15,7 +15,7 @@ export interface RoomingListBooking {
   bookingId: number;
 }
 export interface Booking {
-  id: number;
+  bookingId: number;
   roomingListId?: number;
   hotelId: number;
   eventId: number;
@@ -25,7 +25,7 @@ export interface Booking {
   checkOutDate: string;
 }
 export interface RoomingList {
-  id: number;
+  roomingListId: number;
   eventId: number;
   eventName: string;
   hotelId: number;
@@ -33,8 +33,8 @@ export interface RoomingList {
   cutOffDate: string;
   status: Status;
   agreement_type: string;
-  bookingsCount: number;
-  bookings?: Booking[]
+  bookingsCount?: number;
+  bookings?: Booking[];
 }
 
 interface RoomingListState {

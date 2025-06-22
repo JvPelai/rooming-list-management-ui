@@ -5,9 +5,9 @@ import {
 } from "../features/roomingLists/roomingListsSlice";
 
 export const assignBookings = (
-  roomingLists: any[],
-  bookings: any[],
-  roomingListBooking: any[]
+  roomingLists: RoomingList[],
+  bookings: Booking[],
+  roomingListBooking: RoomingListBooking[]
 ) => {
   // Step 1: Create a map of bookings by ID for quick lookup
   const bookingMap = new Map();
@@ -32,8 +32,10 @@ export const assignBookings = (
     return {
       ...rl,
       bookings: roomingListBookingsMap.get(rl.roomingListId) || [],
+      bookingsCount: (roomingListBookingsMap.get(rl.roomingListId) || [])
+        .length,
     };
   });
 
-  console.log("RoomingListsWithBookings:", roomingListsWithBookings);
+  return roomingListsWithBookings;
 };

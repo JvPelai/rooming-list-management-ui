@@ -13,7 +13,7 @@ const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
   const month = cutOffDate.toLocaleString("default", { month: "long" });
   return (
     <div
-      key={list.id}
+      key={list.roomingListId}
       className="min-w-[300px] bg-white rounded-xl shadow p-4 flex flex-col justify-between"
     >
       <div className="self-stretch inline-flex justify-between items-center">

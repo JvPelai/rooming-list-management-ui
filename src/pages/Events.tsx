@@ -26,10 +26,11 @@ const EventsPage = () => {
 
   const populateData = () => {
     const roomingLists = assignBookings(
-      roomingListData,
+      roomingListData as RoomingList[],
       bookingData,
       roomingListBookingData
     );
+    dispatch(setRoomingLists(roomingLists));
   };
 
   const openModal = (list: RoomingList) => {
@@ -45,7 +46,7 @@ const EventsPage = () => {
   useEffect(() => {
     const mockData: RoomingList[] = [
       {
-        id: 1,
+        roomingListId: 1,
         eventId: 1,
         eventName: "Rolling Loud",
         hotelId: 101,
@@ -56,7 +57,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 2,
+        roomingListId: 2,
         eventId: 1,
         eventName: "Rolling Loud",
         hotelId: 101,
@@ -67,7 +68,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 3,
+        roomingListId: 3,
         eventId: 1,
         eventName: "Rolling Loud",
         hotelId: 101,
@@ -78,7 +79,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 4,
+        roomingListId: 4,
         eventId: 2,
         eventName: "Ultra Miami",
         hotelId: 101,
@@ -89,7 +90,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 5,
+        roomingListId: 5,
         eventId: 2,
         eventName: "Ultra Miami",
         hotelId: 101,
@@ -100,7 +101,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 6,
+        roomingListId: 6,
         eventId: 2,
         eventName: "Ultra Miami",
         hotelId: 101,
@@ -111,7 +112,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 7,
+        roomingListId: 7,
         eventId: 2,
         eventName: "Ultra Miami",
         hotelId: 101,
@@ -122,7 +123,7 @@ const EventsPage = () => {
         bookingsCount: 5,
       },
       {
-        id: 8,
+        roomingListId: 8,
         eventId: 2,
         eventName: "Ultra Miami",
         hotelId: 101,
@@ -188,7 +189,7 @@ const EventsPage = () => {
           <div className="overflow-x-auto flex gap-4">
             {lists.map((list) => (
               <RoomingCard
-                key={list.id}
+                key={list.roomingListId}
                 list={list}
                 onViewBookings={openModal}
               />
