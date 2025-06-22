@@ -9,6 +9,10 @@ import FilterPanel from "../components/FilterPanel";
 import RoomingCard from "../components/RoomingCard";
 import BookingsModal from "../components/BookingsModal";
 import { randomColor } from "../utils/randomColor";
+import roomingListData from "../data/rooming-lists.json";
+import bookingData from "../data/bookings.json";
+import roomingListBookingData from "../data/rooming-list-bookings.json";
+import { assignBookings } from "../utils/assignBookings";
 
 const EventsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +24,14 @@ const EventsPage = () => {
     useState<RoomingList | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const populateData = () => {
+    const roomingLists = assignBookings(
+      roomingListData,
+      bookingData,
+      roomingListBookingData
+    );
+  };
+
   const openModal = (list: RoomingList) => {
     setSelectedRoomingList(list);
     setModalOpen(true);
@@ -30,7 +42,6 @@ const EventsPage = () => {
     setSelectedRoomingList(null);
   };
 
-  console.log(all, search, filters, sort);
   useEffect(() => {
     const mockData: RoomingList[] = [
       {
@@ -144,10 +155,18 @@ const EventsPage = () => {
   }, [all, search, filters, sort]);
 
   return (
-    <div className="p-6 relative bg-slate-50 overflow-hidden">
-      <h1 className="text-2xl font-bold mb-4">
-        Rooming List Management: Events
-      </h1>
+    <div className="p-6 h-screen relative bg-slate-50 overflow-hidden">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold mb-4">
+          Rooming List Management: Events
+        </h1>
+        <button
+          className="self-stretch p 2.5 bg-indigo-600 text-white text-sm px-3 py-1 rounded"
+          onClick={populateData}
+        >
+          Insert Bookings and RoomingLists
+        </button>
+      </div>
 
       <div className="flex flex-col md:flex-row items-start gap-4 mb-6">
         <SearchBar />

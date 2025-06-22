@@ -1,13 +1,26 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { setSearch } from "../features/roomingLists/roomingListsSlice";
-import { RootState, AppDispatch } from "../app/store";
+import { AppDispatch } from "../app/store";
 import SearchSVG from "../assets/Frame 4193.svg";
+import { debounce } from "lodash";
 
 const SearchBar = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const search = useSelector((state: RootState) => state.roomingLists.search);
+  const [inputValue, setInputValue] = useState("");
 
+  const debouncedDispatch = useCallback(
+    debounce((value: string) => {
+      dispatch(setSearch(value));
+    }, 500),
+    []
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    debouncedDispatch(value);
+  };
   return (
     <div className="relative w-full md:w-1/3">
       <img
@@ -19,8 +32,8 @@ const SearchBar = () => {
         type="text"
         placeholder="Search"
         className="w-full pl-10 pr-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        value={search}
-        onChange={(e) => dispatch(setSearch(e.target.value))}
+        value={inputValue}
+        onChange={handleChange}
       />
     </div>
   );

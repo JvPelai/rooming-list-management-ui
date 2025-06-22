@@ -8,6 +8,9 @@ interface Props {
 }
 
 const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
+  const cutOffDate = new Date(list.cutOffDate);
+  const day = cutOffDate.getDate();
+  const month = cutOffDate.toLocaleString("default", { month: "long" });
   return (
     <div
       key={list.id}
@@ -28,12 +31,12 @@ const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
           <div className="w-14 rounded flex flex-col justify-start items-center">
             <div className="self-stretch px-2.5 py-0.5 bg-blue-500/25 rounded-tl-lg rounded-tr-lg inline-flex justify-center items-center gap-2.5">
               <div className="justify-center text-blue-500 text-xs font-semibold uppercase leading-3 tracking-wide">
-                Jan
+                {month}
               </div>
             </div>
             <div className="self-stretch px-2.5 py-1 bg-blue-500/10 rounded-bl-lg rounded-br-lg flex flex-col justify-center items-center gap-2.5">
               <div className="self-stretch text-center justify-center text-blue-500 text-2xl font-bold uppercase leading-normal">
-                8
+                {day}
               </div>
             </div>
           </div>
@@ -45,7 +48,7 @@ const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
 
       <div className="mt-4 flex items-center justify-between">
         <button
-          className="bg-indigo-600 text-white text-sm px-3 py-1 rounded"
+          className="self-stretch p 2.5 bg-indigo-600 text-white text-sm px-3 py-1 rounded"
           onClick={() => onViewBookings(list)}
         >
           View Bookings ({list.bookingsCount})

@@ -10,6 +10,20 @@ export type Status =
   | "archived"
   | "confirmed";
 
+export interface RoomingListBooking {
+  roomingListId: number;
+  bookingId: number;
+}
+export interface Booking {
+  id: number;
+  roomingListId?: number;
+  hotelId: number;
+  eventId: number;
+  guestName: string;
+  guestPhoneNumber: string;
+  checkInDate: string;
+  checkOutDate: string;
+}
 export interface RoomingList {
   id: number;
   eventId: number;
@@ -20,6 +34,7 @@ export interface RoomingList {
   status: Status;
   agreement_type: string;
   bookingsCount: number;
+  bookings?: Booking[]
 }
 
 interface RoomingListState {
