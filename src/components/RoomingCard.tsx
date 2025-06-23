@@ -1,7 +1,10 @@
 import React from "react";
-import { RoomingList } from "../features/roomingLists/roomingListsSlice";
+import {
+  Booking,
+  RoomingList,
+} from "../features/roomingLists/roomingListsSlice";
 import docSVG from "../assets/Icon.svg";
-
+import calendarSVG from "../assets/calendar.svg";
 interface Props {
   list: RoomingList;
   onViewBookings: (list: RoomingList) => void;
@@ -10,7 +13,21 @@ interface Props {
 const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
   const cutOffDate = new Date(list.cutOffDate);
   const day = cutOffDate.getDate();
-  const month = cutOffDate.toLocaleString("default", { month: "long" });
+  const month = cutOffDate.toLocaleString("default", { month: "short" });
+
+  const sortedByCheckIn = [...(list.bookings as Booking[])].sort(
+    (a, b) =>
+      new Date(a.checkInDate).getTime() - new Date(b.checkInDate).getTime()
+  );
+
+  const sortedByCheckOut = [...(list.bookings as Booking[])].sort(
+    (a, b) =>
+      new Date(b.checkOutDate).getTime() - new Date(a.checkOutDate).getTime()
+  );
+
+  const startDate = sortedByCheckIn[0].checkInDate;
+  const endDate = sortedByCheckOut[0].checkOutDate;
+
   return (
     <div
       key={list.roomingListId}
@@ -24,7 +41,10 @@ const RoomingCard: React.FC<Props> = ({ list, onViewBookings }) => {
             <span className="font-semibold">{list.agreement_type}</span>
           </p>
           <p className="text-sm text-gray-500">
-            {new Date(list.cutOffDate).toLocaleDateString()}
+            <div className="inline-flex items-center gap-1">
+              <img src={calendarSVG} alt="calendar" />
+              {startDate} - {endDate}
+            </div>
           </p>
         </div>
         <div className="inline-flex flex-col justify-start items-center gap-1">

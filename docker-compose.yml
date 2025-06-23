@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      PORT: 4000
+      REACT_APP_API_URL: "http://localhost:3000"
+      REACT_APP_API_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MTNjNDZhMi02MjYxLTQxOTgtYWNiMC1hODUyZTkxZjdlMjgiLCJlbWFpbCI6ImpvYW9AZXhhbXBsZS5jb20iLCJpYXQiOjE3NTA2OTM0NTksImV4cCI6MTc1MDc3OTg1OX0.EdipXvLNx0ufvDQd05_LyZBMy4kwRFCcXI9dtWhMvZs"
+    env_file:
+      - .env

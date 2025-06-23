@@ -6,7 +6,13 @@ Follow instructions to register a user and login to get an api token, for now th
 
 Change the variable `REACT_APP_API_TOKEN` in the `.env` with the jwt_token from the api response.
 
+Change the variable in the `docker-compose.yml` file as well if you want to run it with docker.
+
 ### `npm start`
+
+OR, if you want to run with docker:
+
+### `docker-compose up --build`
 
 Runs the app in the development mode.\
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.

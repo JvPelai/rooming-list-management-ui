@@ -59,7 +59,6 @@ const EventsPage = () => {
       try {
         const { roomingLists, bookings, roomingListBookings } =
           await fetchData();
-        console.log(roomingLists, bookings, roomingListBookings);
         const roomingListsData = assignBookings(
           roomingLists as RoomingList[],
           bookings,
