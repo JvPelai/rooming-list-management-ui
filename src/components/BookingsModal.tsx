@@ -31,11 +31,16 @@ const BookingsModal: React.FC<BookingsModalProps> = ({
           Bookings for {roomingList.rfpName}
         </Dialog.Title>
         <div>
-          <p className="text-sm text-gray-600 mb-4">
-            Event: {roomingList.eventName}
-          </p>
           <p>Total Bookings: {roomingList.bookingsCount}</p>
         </div>
+        {roomingList.bookings?.map((booking) => (
+          <div className="mb-4 p-4 border rounded" key={booking.bookingId}>
+            <div>Guest name: {booking.guestName}</div>
+            <div>Guest phone number: {booking.guestPhoneNumber}</div>
+            <div>check-in: {booking.checkInDate}</div>
+            <div>check-out: {booking.checkOutDate}</div>
+          </div>
+        ))}
         <div className="mt-6 flex justify-end">
           <button
             onClick={onClose}

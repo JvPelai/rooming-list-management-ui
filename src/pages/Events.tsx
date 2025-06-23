@@ -13,6 +13,11 @@ import roomingListData from "../data/rooming-lists.json";
 import bookingData from "../data/bookings.json";
 import roomingListBookingData from "../data/rooming-list-bookings.json";
 import { assignBookings } from "../utils/assignBookings";
+import {
+  deleteData,
+  fetchData,
+  insertData,
+} from "../api/roomingListManagementAPI";
 
 const EventsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,13 +29,19 @@ const EventsPage = () => {
     useState<RoomingList | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const populateData = () => {
-    const roomingLists = assignBookings(
-      roomingListData as RoomingList[],
-      bookingData,
-      roomingListBookingData
+  const populateData = async () => {
+    await deleteData();
+
+    await insertData({ roomingListData, bookingData, roomingListBookingData });
+
+    const { roomingLists, bookings, roomingListBookings } = await fetchData();
+
+    const roomingListsData = assignBookings(
+      roomingLists as RoomingList[],
+      bookings,
+      roomingListBookings
     );
-    dispatch(setRoomingLists(roomingLists));
+    dispatch(setRoomingLists(roomingListsData));
   };
 
   const openModal = (list: RoomingList) => {
@@ -44,97 +55,23 @@ const EventsPage = () => {
   };
 
   useEffect(() => {
-    const mockData: RoomingList[] = [
-      {
-        roomingListId: 1,
-        eventId: 1,
-        eventName: "Rolling Loud",
-        hotelId: 101,
-        rfpName: "ACL-2025",
-        cutOffDate: "2025-09-30",
-        status: "completed",
-        agreement_type: "leisure",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 2,
-        eventId: 1,
-        eventName: "Rolling Loud",
-        hotelId: 101,
-        rfpName: "ACL-2025",
-        cutOffDate: "2025-09-30",
-        status: "received",
-        agreement_type: "staff",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 3,
-        eventId: 1,
-        eventName: "Rolling Loud",
-        hotelId: 101,
-        rfpName: "ACL-2024",
-        cutOffDate: "2024-09-30",
-        status: "archived",
-        agreement_type: "leisure",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 4,
-        eventId: 2,
-        eventName: "Ultra Miami",
-        hotelId: 101,
-        rfpName: "RLM-2025",
-        cutOffDate: "2025-09-30",
-        status: "completed",
-        agreement_type: "leisure",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 5,
-        eventId: 2,
-        eventName: "Ultra Miami",
-        hotelId: 101,
-        rfpName: "RLM-2025",
-        cutOffDate: "2025-10-15",
-        status: "completed",
-        agreement_type: "staff",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 6,
-        eventId: 2,
-        eventName: "Ultra Miami",
-        hotelId: 101,
-        rfpName: "RLM-2025",
-        cutOffDate: "2025-10-15",
-        status: "Confirmed",
-        agreement_type: "leisure",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 7,
-        eventId: 2,
-        eventName: "Ultra Miami",
-        hotelId: 101,
-        rfpName: "RLM-2026",
-        cutOffDate: "2026-10-25",
-        status: "received",
-        agreement_type: "leisure",
-        bookingsCount: 5,
-      },
-      {
-        roomingListId: 8,
-        eventId: 2,
-        eventName: "Ultra Miami",
-        hotelId: 101,
-        rfpName: "RLM-2026",
-        cutOffDate: "2026-10-25",
-        status: "received",
-        agreement_type: "staff",
-        bookingsCount: 5,
-      },
-    ];
-    dispatch(setRoomingLists(mockData));
+    const fetch = async () => {
+      try {
+        const { roomingLists, bookings, roomingListBookings } =
+          await fetchData();
+        console.log(roomingLists, bookings, roomingListBookings);
+        const roomingListsData = assignBookings(
+          roomingLists as RoomingList[],
+          bookings,
+          roomingListBookings
+        );
+        dispatch(setRoomingLists(roomingListsData));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetch();
   }, [dispatch]);
 
   const filteredSortedLists = useMemo(() => {
