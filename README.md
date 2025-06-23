@@ -32,7 +32,8 @@ The buttown shown above clears all existing data and inserts the data from the f
 
 ## Initial page: Rooming Lists grouped by event name:
 
-![Captura de tela 2025-06-23 121310](https://github.com/user-attachments/assets/8931bb8b-71c0-4ef3-9455-25e7b4e83d7b)
+![Captura de tela 2025-06-23 131059](https://github.com/user-attachments/assets/8a7e903c-f890-48ba-836e-a0a60b6a9468)
+
 
 You can search items by rfp name, agrement type and status. With a 500ms debounce
 
