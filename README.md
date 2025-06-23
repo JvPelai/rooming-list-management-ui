@@ -1,46 +1,47 @@
-# Getting Started with Create React App
+You need to set up the backend first in order to create and fetch rooming lists:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+See: [rooming-list-management-api](https://github.com/JvPelai/rooming-list-management-api)
 
-## Available Scripts
+Follow instructions to register a user and login to get an api token, for now this needs to be done through postman or curl, since a signup/signin page is still not implemented
 
-In the project directory, you can run:
+Change the variable `REACT_APP_API_TOKEN` in the `.env` with the jwt_token from the api response.
 
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Insert data:
 
-### `npm run build`
+![Captura de tela 2025-06-23 121501](https://github.com/user-attachments/assets/4161b628-e784-4487-9a88-95f813d5a18d)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The buttown shown above clears all existing data and inserts the data from the following files:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [src/data/bookings.json](src/data/bookings.json)
+- [src/data/rooming-ist.json](src/data/rooming-lists.json)
+- [src/data/rooming-list-bookings.json](src/data/rooming-list-bookings.json)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Initial page: Rooming Lists grouped by event name:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Captura de tela 2025-06-23 121310](https://github.com/user-attachments/assets/8931bb8b-71c0-4ef3-9455-25e7b4e83d7b)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can search items by rfp name, agrement type and status. With a 500ms debounce
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Filter options:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![Captura de tela 2025-06-23 121407](https://github.com/user-attachments/assets/ac0ea41e-4446-4579-b581-58902478a0af)
 
-## Learn More
+For now, it included all statuses present in [src/data/rooming-ist.json](src/data/rooming-lists.json), this is only to display all items in the file to facilitate testing and not the final version.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Bookings list:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Captura de tela 2025-06-23 121601](https://github.com/user-attachments/assets/28c362e8-48c7-4282-b03f-2e9f5e918ae0)
+
+Each Rooming Card has its respective bookings, displayed in a modal when the "View Bookings" button is clicked.
+
+
+
+
